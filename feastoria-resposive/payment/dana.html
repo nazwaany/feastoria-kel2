@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Wallet - DANA</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background-color: #fff;
+        color: #222;
+      }
+
+      /* ===== NAVBAR ===== */
+      .navbar {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 15px 5%;
+        background-color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar img {
+        width: 28px;
+        cursor: pointer;
+      }
+
+      /* ===== HEADER ===== */
+      .header {
+        margin-top: 60px;
+        padding: 30px 20px;
+        text-align: center;
+        background: linear-gradient(to top, #fff0f0, #f1a9a9);
+        border-radius: 0 0 12px 12px;
+      }
+
+      .header h3 {
+        font-size: 18px;
+        margin-bottom: 25px;
+      }
+
+      /* ===== BANK CARD ===== */
+      .bank-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 25px 20px;
+        text-align: center;
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      .bank-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .bank-top span {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .bank-top a {
+        font-size: 13px;
+        color: #888;
+        text-decoration: none;
+      }
+
+      .bank-logo img {
+        width: 90px;
+        height: auto;
+      }
+
+      .bank-logo p {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #555;
+      }
+
+      .va-number {
+        background-color: #fff0f0;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #d33;
+        display: inline-block;
+        letter-spacing: 1px;
+      }
+
+      .copy-btn {
+        margin-left: 8px;
+        font-size: 12px;
+        padding: 5px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+      }
+
+      /* ===== INFORMASI ===== */
+      .info-section {
+        padding: 25px 8%;
+      }
+
+      .info-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      /* ===== INSTRUKSI ===== */
+      .instruksi-title {
+        margin-top: 30px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      details {
+        border-bottom: 1px solid #ddd;
+        padding: 12px 0;
+      }
+
+      summary {
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      details p {
+        margin: 10px 0 0 10px;
+        font-size: 13px;
+        color: #555;
+      }
+
+      .konfirmasi-btn {
+        display: block;
+        width: 200px;
+        margin: 30px auto;
+        padding: 12px 20px;
+        background-color: #a42c21;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 10px rgba(164, 44, 33, 0.3);
+      }
+
+      .konfirmasi-btn:hover {
+        background-color: #821d16;
+      }
+
+      /* ===== POPUP STYLE ===== */
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .popup-box {
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 90%;
+        max-width: 380px;
+        transform: scale(0.9);
+        animation: popup-animation 0.3s ease-out forwards;
+      }
+
+      @keyframes popup-animation {
+        to {
+          transform: scale(1);
+        }
+      }
+
+      .popup-box h2 {
+        color: #a42c21;
+        margin-top: 10px;
+        font-size: 22px;
+      }
+
+      .popup-box .reservation-details {
+        text-align: left;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #555;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+      }
+
+      .popup-box .reservation-details p {
+        margin: 5px 0;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .popup-box .reservation-details span:first-child {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .mdi--check-circle-outline {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23a42c21' d='M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10s10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4l8-8z'/%3E%3C/svg%3E");
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="jenis-bank.html">
+        <img src="../gambar/back.jpg" alt="Kembali" />
+      </a>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+      <h3>E-Wallet Payment</h3>
+      <div class="bank-card">
+        <div class="bank-top">
+          <span>BANK</span>
+          <a href="jenis-bank.html">Change &gt;</a>
+        </div>
+        <div class="bank-logo">
+          <img src="../gambar/dana.jpg" alt="DANA" />
+          <p>Virtual Account Number</p>
+          <div>
+            <span class="va-number">1234 207 1002 2917</span>
+            <button class="copy-btn">COPY</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informasi -->
+    <div class="info-section">
+      <div class="info-title">INFORMATION</div>
+      <div class="info-row">
+        <span>Account Name </span>
+        <span id="account-name">Saskia Khalisah</span>
+      </div>
+      <div class="info-row">
+        <span>Total Pembayaran</span>
+        <span id="payment-amount">Rp 0</span>
+      </div>
+
+      <div class="instruksi-title">INSTRUCTIONS</div>
+
+      <details>
+        <summary>Dana</summary>
+        <p>Open the DANA app.</p>
+      </details>
+      <details>
+        <summary>Pay</summary>
+        <p>
+         Tap “Pay” on the home screen.
+        </p>
+      </details>
+      <details>
+        <summary>Scan</summary>
+        <p>
+      Scan the QR code at the store or on the website.
+        </p>
+      </details>
+      <details>
+        <summary>Confirm</summary>
+        <p>
+          Check the amount and confirm payment.
+        </p>
+      </details>
+      <details>
+        <summary> insert Pin</summary>
+        <p>
+        Enter your PIN to complete the transaction.s        </p>
+      </details>
+      <details>
+        <summary> message</summary>
+        <p>
+       You’ll see a success message and Transaction ID as proof.
+      </p>
+      </details>
+    </div>
+
+    <button class="konfirmasi-btn" id="konfirmasiBtn">Konfirmasi</button>
+
+    <!-- ===== POPUP SECTION ===== -->
+    <div class="popup-overlay" id="popupOverlay">
+      <div class="popup-box">
+        <span class="mdi--check-circle-outline"></span>
+        <h2>Reservasi Berhasil</h2>
+        <p>
+          Terima Kasih sudah Memesan di Website kami.
+        </p>
+        <div class="reservation-details">
+            <p><span>Nama Pemesan:</span> <span id="popup-name">-</span></p>
+            <p><span>Email Pemesan:</span> <span id="popup-email">-</span></p>
+            <p><span>Nomor Telepon:</span> <span id="popup-phone">-</span></p>
+            <p><span>Untuk Tanggal:</span> <span id="popup-date">-</span></p>
+            <p><span>Jam:</span> <span id="popup-time">-</span></p>
+            <p><span>Jumlah Orang:</span> <span id="popup-person">-</span></p>
+        </div>
+        <button class="konfirmasi-btn" style="width: 100%; margin-top: 20px;" onclick="window.location.href='../index.html'">Selesai</button>
+      </div>
+    </div>
+
+  </body>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const paymentAmountElement = document.getElementById('payment-amount');
+      const totalPayment = sessionStorage.getItem('totalPayment');
+      const konfirmasiBtn = document.getElementById('konfirmasiBtn');
+      const popupOverlay = document.getElementById('popupOverlay');
+      const accountNameElement = document.getElementById('account-name');
+      const storedUsername = sessionStorage.getItem('username');
+
+      if (paymentAmountElement && totalPayment) {
+        paymentAmountElement.textContent = 'Rp' + parseFloat(totalPayment).toLocaleString('id-ID');
+      }
+
+      if (accountNameElement && storedUsername) {
+        accountNameElement.textContent = storedUsername;
+      } else if (accountNameElement) {
+        accountNameElement.textContent = "Guest"; // Fallback jika tidak ada username
+      }
+
+      konfirmasiBtn.addEventListener('click', function() {
+        popupOverlay.style.display = 'flex';
+
+        // Ambil dan tampilkan data reservasi di pop-up
+        const reservationData = JSON.parse(sessionStorage.getItem('reservationData'));
+        if (reservationData) {
+            document.getElementById('popup-name').textContent = reservationData.name || '-';
+            document.getElementById('popup-email').textContent = reservationData.email || '-';
+            document.getElementById('popup-phone').textContent = reservationData.phone || '-';
+            document.getElementById('popup-date').textContent = reservationData.date || '-';
+            document.getElementById('popup-time').textContent = reservationData.time || '-';
+            document.getElementById('popup-person').textContent = reservationData.person ? `${reservationData.person} orang` : '-';
+        }
+
+        // Hapus data setelah ditampilkan untuk sesi berikutnya
+        sessionStorage.removeItem('orders');
+        sessionStorage.removeItem('totalPayment');
+        sessionStorage.removeItem('reservationData');
+      });
+    });
+  </script>
+</html>
